@@ -1,4 +1,11 @@
+# ---- Jenkins plugin
+work
+
+
 # ----- misc IDEs and OSes -----
+.settings
+.classpath
+.project
 
 .idea
 .DS_Store
@@ -168,3 +175,5 @@ typings/
 #
 ## Rope project settings
 #.ropeproject
+/target/
+/work/
