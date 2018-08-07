@@ -11,6 +11,6 @@ build:
   script: mvn package -q
   artifacts:
     paths:
-      - target/sam.hpi
+      - target/aws-sam.hpi
   environment:
     name: build
