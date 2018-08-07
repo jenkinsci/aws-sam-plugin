@@ -10,25 +10,47 @@
 		<relativePath />
 	</parent>
 	<groupId>io.jenkins.plugins</groupId>
-	<artifactId>sam</artifactId>
-	<version>0.0.3-SNAPSHOT</version>
+	<artifactId>aws-sam</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 	<properties>
 		<jenkins.version>2.7.3</jenkins.version>
 		<java.level>7</java.level>
 	</properties>
-	<name>AWS SAM Plugin</name>
-	<description>TODO</description>
+	<name>AWS SAM Plugin for Jenkins</name>
+	<description>This plugin packages and deploys both CloudFormation and SAM templates with a security first mindset.</description>
 	<licenses>
 		<license>
 			<name>MIT License</name>
 			<url>https://opensource.org/licenses/MIT</url>
 		</license>
 	</licenses>
-	<!-- Assuming you want to host on @jenkinsci: <url>https://wiki.jenkins.io/display/JENKINS/TODO+Plugin</url> 
-		<scm> <connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection> 
-		<developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection> 
-		<url>https://github.com/jenkinsci/${project.artifactId}-plugin</url> </scm> -->
+	<url>https://wiki.jenkins.io/display/JENKINS/AWS+SAM+Plugin</url>
+	<scm>
+		<connection>scm:git:git://github.com/jenkinsci/${project.artifactId}-plugin.git</connection>
+		<developerConnection>scm:git:git@github.com:jenkinsci/${project.artifactId}-plugin.git</developerConnection>
+		<url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+	</scm>
+	<organization>
+		<name>Trek10, Inc.</name>
+		<url>https://www.trek10.com/</url>
+	</organization>
+	<developers>
+		<developer>
+			<id>seansummers</id>
+			<name>Sean Summers (Trek10)</name>
+			<email>ssummers@trek10.com</email>
+			<organization>Trek10, Inc.</organization>
+			<organizationUrl>https://www.trek10.com/</organizationUrl>
+		</developer>
+		<developer>
+			<id>mmachnicki</id>
+			<name>Modest Machnicki (Trek10)</name>
+			<email>mmachnicki@trek10.com</email>
+			<organization>Trek10, Inc.</organization>
+			<organizationUrl>https://www.trek10.com/</organizationUrl>
+		</developer>
+	</developers>
 	<repositories>
 		<repository>
 			<id>repo.jenkins-ci.org</id>

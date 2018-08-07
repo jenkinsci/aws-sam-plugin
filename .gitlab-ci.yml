@@ -1,0 +1,16 @@
+image: maven
+
+cache:
+  key: ${CI_COMMIT_REF_NAME}
+  untracked: true
+  paths:
+    - /root/.m2
+
+build:
+  stage: build
+  script: mvn package -q
+  artifacts:
+    paths:
+      - target/sam.hpi
+  environment:
+    name: build
