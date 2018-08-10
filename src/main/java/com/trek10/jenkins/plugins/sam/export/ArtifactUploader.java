@@ -83,14 +83,13 @@ public class ArtifactUploader {
         if (extension != null) {
             objectKey = String.format("%s.%s", objectKey, extension);
         }
-        if (doesObjectExist(objectKey) && !config.isForceUpload()) {
+        if (doesObjectExist(objectKey)) {
             logger.println("Skipping upload for " + objectKey + ". Object already exists.");
             return buildS3URI(objectKey);
         }
         logger.println("Uploading: " + objectKey);
         ObjectMetadata objMetadata = new ObjectMetadata();
         objMetadata.setContentLength(file.length());
-        objMetadata.setUserMetadata(config.getMetadata());
         InputStream reader = file.read();
         PutObjectRequest putObjectRequest = new PutObjectRequest(config.getS3Bucket(), objectKey, reader, objMetadata);
         if (StringUtils.isEmpty(config.getKmsKeyId())) {

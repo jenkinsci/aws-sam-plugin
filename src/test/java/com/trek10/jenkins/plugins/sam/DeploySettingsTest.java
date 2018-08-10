@@ -29,24 +29,6 @@ public class DeploySettingsTest {
     }
 
     @Test
-    public void testBuildMetadata() {
-        List<KeyValuePairBean> metadataList = new ArrayList<KeyValuePairBean>();
-        metadataList.add(new KeyValuePairBean("key1", "value1"));
-        metadataList.add(new KeyValuePairBean("key2", "value2"));
-        settings.setMetadata(metadataList);
-        Map<String, String> metadata = settings.buildMetadata();
-        assertEquals(metadata.size(), 2);
-        assertEquals(metadata.get("key1"), "value1");
-        assertEquals(metadata.get("key2"), "value2");
-    }
-
-    @Test
-    public void testBuildMetadataEmpty() {
-        Map<String, String> metadata = settings.buildMetadata();
-        assertEquals(metadata.size(), 0);
-    }
-
-    @Test
     public void testBuildTags() {
         List<KeyValuePairBean> tagList = new ArrayList<KeyValuePairBean>();
         tagList.add(new KeyValuePairBean("key1", "value1"));
@@ -84,13 +66,12 @@ public class DeploySettingsTest {
 
     @Test
     public void testBuildUploaderConfig() {
-        List<KeyValuePairBean> metadataList = new ArrayList<KeyValuePairBean>();
-        metadataList.add(new KeyValuePairBean("key1", "value1"));
-        settings.setMetadata(metadataList);
+        settings.setS3Prefix("some-prefix");
+        settings.setKmsKeyId("some-key");
         UploaderConfig config = settings.buildUploaderConfig();
         assertEquals(config.getS3Bucket(), "some-bucket");
-        assertEquals(config.isForceUpload(), false);
-        assertEquals(config.getMetadata().get("key1"), "value1");
+        assertEquals(config.getS3Prefix(), "some-prefix");
+        assertEquals(config.getKmsKeyId(), "some-key");
     }
 
 }

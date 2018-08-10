@@ -5,8 +5,6 @@ import static org.mockito.Mockito.*;
 
 import java.io.File;
 import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -37,7 +35,7 @@ public class ArtifactUploaderTest {
     private FilePath artifactFilePath;
 
     private FilePath artifactDirFilePath;
-    
+
     private UploaderConfig config;
 
     private ArtifactUploader uploader;
@@ -77,19 +75,16 @@ public class ArtifactUploaderTest {
     }
 
     @Test
-    public void testUploadObjectForced() {
-        Map<String, String> metadata = new HashMap<String,String>();
-        metadata.put("some-key", "some-value");
+    public void testUploadObjectWithExtensionAndKms() {
+        when(s3Client.getObjectMetadata("some-bucket", "42637f683b13b9beec74eab6d2a442cd.js"))
+                .thenThrow(new AmazonS3Exception("error"));
         config.setS3Prefix(null);
         config.setKmsKeyId("some-kms");
-        config.setForceUpload(true);
-        config.setMetadata(metadata);
         uploader = ArtifactUploader.build(s3Client, config, logger);
         String result = uploader.upload(artifactFilePath, "js");
         assertEquals(result, "s3://some-bucket/42637f683b13b9beec74eab6d2a442cd.js");
         verify(s3Client, times(1)).putObject(putObjectRequestCaptor.capture());
         PutObjectRequest request = putObjectRequestCaptor.getValue();
-        assertEquals(request.getMetadata().getUserMetadata().get("some-key"), "some-value");
         assertEquals(request.getSSEAwsKeyManagementParams().getAwsKmsKeyId(), "some-kms");
     }
 
@@ -98,12 +93,13 @@ public class ArtifactUploaderTest {
         String result = uploader.upload(artifactDirFilePath);
         assertEquals(result.substring(0, 29), "s3://some-bucket/test-prefix/");
     }
-    
+
     @Test
     public void testBuildS3PathStyleURI() {
         String result = uploader.buildS3PathStyleURI("s3://some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
-        assertEquals(result, "https://s3-us-east-2.amazonaws.com/some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
-        
+        assertEquals(result,
+                "https://s3-us-east-2.amazonaws.com/some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
+
         when(s3Client.getRegionName()).thenReturn("us-east-1");
         result = uploader.buildS3PathStyleURI("s3://some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
         assertEquals(result, "https://s3.amazonaws.com/some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
