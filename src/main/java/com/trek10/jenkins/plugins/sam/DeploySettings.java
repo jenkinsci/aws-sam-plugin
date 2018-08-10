@@ -2,12 +2,9 @@ package com.trek10.jenkins.plugins.sam;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.CheckForNull;
-import javax.annotation.Nonnull;
 import javax.servlet.ServletException;
 
 import org.kohsuke.stapler.DataBoundConstructor;
@@ -36,12 +33,7 @@ public class DeploySettings extends AbstractDescribableImpl<DeploySettings> {
 
     private final String credentialsId;
 
-    @Nonnull
-    private boolean forceUpload = false;
-
     private String kmsKeyId;
-
-    private List<KeyValuePairBean> metadata;
 
     @CheckForNull
     private String outputTemplateFile;
@@ -73,16 +65,6 @@ public class DeploySettings extends AbstractDescribableImpl<DeploySettings> {
         this.templateFile = templateFile;
     }
 
-    public Map<String, String> buildMetadata() {
-        Map<String, String> metadataMap = new HashMap<String, String>();
-        if (metadata != null) {
-            for (KeyValuePairBean item : metadata) {
-                metadataMap.put(item.getKey(), item.getValue());
-            }
-        }
-        return metadataMap;
-    }
-
     public List<Tag> buildTags() {
         List<Tag> list = new ArrayList<Tag>();
         if (tags == null) {
@@ -107,8 +89,7 @@ public class DeploySettings extends AbstractDescribableImpl<DeploySettings> {
     }
 
     public UploaderConfig buildUploaderConfig() {
-        return new UploaderConfig().withForceUpload(forceUpload).withKmsKeyId(kmsKeyId).withMetadata(buildMetadata())
-                .withS3Bucket(s3Bucket).withS3Prefix(s3Prefix);
+        return new UploaderConfig().withKmsKeyId(kmsKeyId).withS3Bucket(s3Bucket).withS3Prefix(s3Prefix);
     }
 
     public String getCredentialsId() {
@@ -117,10 +98,6 @@ public class DeploySettings extends AbstractDescribableImpl<DeploySettings> {
 
     public String getKmsKeyId() {
         return kmsKeyId;
-    }
-
-    public List<KeyValuePairBean> getMetadata() {
-        return metadata;
     }
 
     public String getOutputTemplateFile() {
@@ -159,15 +136,6 @@ public class DeploySettings extends AbstractDescribableImpl<DeploySettings> {
         return s3Prefix;
     }
 
-    public boolean isForceUpload() {
-        return forceUpload;
-    }
-
-    @DataBoundSetter
-    public void setForceUpload(boolean forceUpload) {
-        this.forceUpload = forceUpload;
-    }
-
     @DataBoundSetter
     public void setKmsKeyId(String kmsKeyId) {
         this.kmsKeyId = kmsKeyId;
@@ -186,11 +154,6 @@ public class DeploySettings extends AbstractDescribableImpl<DeploySettings> {
     @DataBoundSetter
     public void setTags(List<KeyValuePairBean> tags) {
         this.tags = tags;
-    }
-
-    @DataBoundSetter
-    public void setMetadata(List<KeyValuePairBean> metadata) {
-        this.metadata = metadata;
     }
 
     @DataBoundSetter
