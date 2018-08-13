@@ -70,7 +70,7 @@ public class DeploySettingsDescriptorTest {
 
     @Test
     public void testDoCheckTemplateFile() throws IOException, ServletException {
-        assertEquals(descriptor.doCheckTemplateFile("template.yml").kind, FormValidation.Kind.OK);
+        assertEquals(descriptor.doCheckTemplateFile("template.yaml").kind, FormValidation.Kind.OK);
         assertEquals(descriptor.doCheckTemplateFile("").kind, FormValidation.Kind.ERROR);
     }
 }

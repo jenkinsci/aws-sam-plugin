@@ -30,7 +30,7 @@ public class ArtifactExporterTest {
     @Before
     public void setUp() throws IOException, InterruptedException {
         FilePath templateFilePath = new FilePath(
-                new File(getClass().getClassLoader().getResource("template.yml").getFile()));
+                new File(getClass().getClassLoader().getResource("template.yaml").getFile()));
         exporter = ArtifactExporter.build(templateFilePath, uploader);
         when(uploader.upload(any(FilePath.class))).thenReturn("s3://some-bucket/abcd");
         when(uploader.buildS3PathStyleURI(anyString())).thenReturn("https://s3.amazonaws.com/abcd");
@@ -41,7 +41,7 @@ public class ArtifactExporterTest {
         Map<String, Object> result = exporter.export();
         Yaml yaml = new Yaml();
         Map<String, Object> expectedOutput = yaml
-                .load(getClass().getClassLoader().getResource("expected_output.yml").openStream());
+                .load(getClass().getClassLoader().getResource("expected_output.yaml").openStream());
         assertEquals(result, expectedOutput);
     }
 

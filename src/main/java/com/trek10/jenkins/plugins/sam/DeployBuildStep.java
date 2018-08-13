@@ -117,7 +117,7 @@ public class DeployBuildStep extends Builder implements SimpleBuildStep {
         String outputTemplateFile = settings.getOutputTemplateFile();
 
         if (StringUtils.isEmpty(outputTemplateFile)) {
-            outputTemplateFile = String.format("template-%s.yml", jobId);
+            outputTemplateFile = String.format("template-%s.yaml", jobId);
         }
         OutputStreamWriter writer = new OutputStreamWriter(workspace.child(outputTemplateFile).write());
         yaml.dump(outputTemplate, writer);
