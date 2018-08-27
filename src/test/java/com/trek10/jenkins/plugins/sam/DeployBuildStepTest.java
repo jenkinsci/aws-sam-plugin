@@ -91,8 +91,8 @@ public class DeployBuildStepTest {
                 any(Collection.class), anyString())).thenReturn(new CreateChangeSetResult().withId("some-change-set"));
 
         project = j.createFreeStyleProject();
-        project.setScm(new SingleFileSCM("template.yml", "source_template_content"));
-        settings = new DeploySettings("some-creds", "us-west-1", "some-bucket", "some-stack", "template.yml");
+        project.setScm(new SingleFileSCM("template.yaml", "source_template_content"));
+        settings = new DeploySettings("some-creds", "us-west-1", "some-bucket", "some-stack", "template.yaml");
     }
 
     @Test

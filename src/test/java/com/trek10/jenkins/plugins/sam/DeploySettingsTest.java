@@ -25,7 +25,7 @@ public class DeploySettingsTest {
 
     @Before
     public void setUp() {
-        settings = new DeploySettings("some-creds", "us-east-1", "some-bucket", "some-stack", "template.yml");
+        settings = new DeploySettings("some-creds", "us-east-1", "some-bucket", "some-stack", "template.yaml");
     }
 
     @Test

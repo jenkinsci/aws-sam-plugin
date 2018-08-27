@@ -30,7 +30,7 @@ Resources:
   CloudFormationStack:
     Type: 'AWS::CloudFormation::Stack'
     Properties:
-      TemplateURL: 'inner_template.yml'
+      TemplateURL: 'inner_template.yaml'
   ServerlessApi:
     Type: 'AWS::Serverless::Api'
     Properties:

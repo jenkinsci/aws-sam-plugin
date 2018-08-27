@@ -1,4 +1,4 @@
 <?jelly escape-by-default='true'?>
 <div>
-    TODO
+  Simplify automated deployments of serverless applications by using AWS SAM Templates.
 </div>
