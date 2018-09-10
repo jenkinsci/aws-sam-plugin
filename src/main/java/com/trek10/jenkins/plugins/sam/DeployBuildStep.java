@@ -30,18 +30,18 @@ import com.amazonaws.services.cloudformation.model.CreateChangeSetResult;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
- * Jenkins build step that handles SAM package process and deploying CloudFormation template.
+ * Jenkins build step that handles SAM package process and deploying
+ * CloudFormation template.
  * 
  * @author Trek10, Inc.
  */
 public class DeployBuildStep extends Builder implements SimpleBuildStep {
 
     private final DeploySettings settings;
-
-    private CloudFormationService cloudFormation;
 
     @DataBoundConstructor
     public DeployBuildStep(DeploySettings settings) {
@@ -57,7 +57,8 @@ public class DeployBuildStep extends Builder implements SimpleBuildStep {
             throws InterruptedException, IOException, AmazonServiceException {
 
         PrintStream logger = listener.getLogger();
-        cloudFormation = CloudFormationService.build(AmazonCloudFormationBuilder.build(settings), logger);
+        CloudFormationService cloudFormation = CloudFormationService.build(AmazonCloudFormationBuilder.build(settings),
+                logger);
         AmazonS3 s3Client = AmazonS3Builder.build(settings);
         String template = workspace.child(settings.getTemplateFile()).readToString();
         String s3Bucket = settings.getS3Bucket();
@@ -78,7 +79,7 @@ public class DeployBuildStep extends Builder implements SimpleBuildStep {
         logger.println("Output template: " + outputTemplateFilepath);
 
         try {
-            CreateChangeSetResult changeSetResult = createChangeSet(outputTemplate, run.getId());
+            CreateChangeSetResult changeSetResult = createChangeSet(cloudFormation, outputTemplate, run.getId());
             cloudFormation.executeChangeSet(changeSetResult.getId());
             logger.println("Application successfully deployed.");
         } catch (ChangeSetNoChangesException e) {
@@ -102,7 +103,8 @@ public class DeployBuildStep extends Builder implements SimpleBuildStep {
 
     }
 
-    private CreateChangeSetResult createChangeSet(Map<String, Object> outputTemplate, String jobId) {
+    private CreateChangeSetResult createChangeSet(CloudFormationService cloudFormation,
+            Map<String, Object> outputTemplate, String jobId) {
         Yaml yaml = new Yaml();
         String roleArn = settings.getRoleArn();
 
@@ -119,7 +121,8 @@ public class DeployBuildStep extends Builder implements SimpleBuildStep {
         if (StringUtils.isEmpty(outputTemplateFile)) {
             outputTemplateFile = String.format("template-%s.yaml", jobId);
         }
-        OutputStreamWriter writer = new OutputStreamWriter(workspace.child(outputTemplateFile).write());
+        OutputStreamWriter writer = new OutputStreamWriter(workspace.child(outputTemplateFile).write(),
+                StandardCharsets.UTF_8);
         yaml.dump(outputTemplate, writer);
         return outputTemplateFile;
     }

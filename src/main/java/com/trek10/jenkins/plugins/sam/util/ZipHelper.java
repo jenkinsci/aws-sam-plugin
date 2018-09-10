@@ -15,7 +15,7 @@ import hudson.FilePath;
  */
 public class ZipHelper {
 
-    public static byte[] MAGIC = { 'P', 'K', 0x3, 0x4 };
+    private final static byte[] MAGIC = { 'P', 'K', 0x3, 0x4 };
 
     /**
      * The method to test if a input stream is a zip archive.
@@ -44,12 +44,16 @@ public class ZipHelper {
         return isZip;
     }
 
-    public static void zipDirectoryContents(FilePath directory, FilePath zipFile)
-            throws IOException, InterruptedException {
+    public static void zipDirectoryContents(FilePath directory, FilePath zipFile) throws IOException, InterruptedException {
         ZipOutputStream zipStream = new ZipOutputStream(zipFile.write());
         zipStream.setMethod(ZipEntry.DEFLATED);
         zipStream.setLevel(6);
-        addDirectoryToZip(directory, zipStream, directory.getRemote());
+        try {
+            addDirectoryToZip(directory, zipStream, directory.getRemote());
+        } catch (IOException | InterruptedException e) {
+            zipStream.close();
+            throw e;
+        }
         zipStream.close();
     }
 
