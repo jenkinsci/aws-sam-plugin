@@ -1,4 +1,4 @@
-# AWS SAM Jenkins plugin
+# AWS SAM plugin for Jenkins
 
 ## Status
 
