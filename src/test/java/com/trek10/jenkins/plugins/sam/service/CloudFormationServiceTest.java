@@ -1,3 +1,6 @@
+// Copyright 2018 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+// SPDX-License-Identifier: MIT
+
 package com.trek10.jenkins.plugins.sam.service;
 
 import static org.junit.Assert.assertEquals;
