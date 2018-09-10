@@ -11,11 +11,11 @@
 	</parent>
 	<groupId>io.jenkins.plugins</groupId>
 	<artifactId>aws-sam</artifactId>
-	<version>1.1.0-SNAPSHOT</version>
+	<version>1.2.0-SNAPSHOT</version>
 	<packaging>hpi</packaging>
 	<properties>
 		<jenkins.version>2.7.3</jenkins.version>
-		<java.level>7</java.level>
+		<java.level>8</java.level>
 	</properties>
 	<name>AWS SAM Plugin for Jenkins</name>
 	<description>This plugin packages and deploys both CloudFormation and SAM templates with a security first mindset.</description>

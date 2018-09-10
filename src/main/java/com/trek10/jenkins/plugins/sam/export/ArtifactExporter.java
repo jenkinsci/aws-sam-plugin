@@ -9,6 +9,7 @@ import org.yaml.snakeyaml.Yaml;
 
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -17,11 +18,11 @@ import java.util.HashMap;
  */
 public class ArtifactExporter {
 
-    private final Map<String, Object> template;
+    protected final Map<String, Object> template;
 
-    private final FilePath templateDir;
+    protected final FilePath templateDir;
 
-    private final ArtifactUploader uploader;
+    protected final ArtifactUploader uploader;
 
     private ArtifactExporter(FilePath templatePath, ArtifactUploader uploader)
             throws IOException, InterruptedException {
@@ -190,7 +191,7 @@ public class ArtifactExporter {
                 Map<String, Object> nestedTemplate = exporter.export();
                 FilePath templateFile = artifactsFilePath.getParent().createTempFile(".sam", null);
                 Yaml yaml = new Yaml();
-                OutputStreamWriter writer = new OutputStreamWriter(templateFile.write());
+                OutputStreamWriter writer = new OutputStreamWriter(templateFile.write(), StandardCharsets.UTF_8);
                 yaml.dump(nestedTemplate, writer);
                 writer.close();
                 String s3URI = uploader.upload(templateFile, "template");

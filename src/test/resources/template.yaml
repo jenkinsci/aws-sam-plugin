@@ -10,10 +10,7 @@ Resources:
       Environment:
         USERNAME: !Ref Username
       Handler: 'index.handler'
-      Role: 
-        Fn::GetAtt: 
-          - "LambdaExecutionRole"
-          - "Arn"
+      Role: !GetAtt LambdaExecutionRole.Arn
       Runtime: "nodejs8.10"
   ServerlessFunction:
     Type: 'AWS::Serverless::Function'
@@ -39,7 +36,7 @@ Resources:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
-        S3Bucket: test
+        S3Bucket: !Join [ ".", [ a, b, c ] ]
         S3Key: test
       Handler: 'index.handler'
       Runtime: "nodejs8.10"

@@ -65,7 +65,7 @@ public class ArtifactUploader {
         String region = s3Client.getRegionName();
         String versionId = s3URI.getVersionId();
         String base = "https://s3.amazonaws.com";
-        if (region != "us-east-1") {
+        if (!region.equals("us-east-1")) {
             base = String.format("https://s3-%s.amazonaws.com", region);
         }
         String result = String.format("%s/%s/%s", base, s3URI.getBucket(), s3URI.getKey());

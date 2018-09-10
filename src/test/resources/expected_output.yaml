@@ -30,7 +30,12 @@ Resources:
   Test:
     Type: AWS::Lambda::Function
     Properties:
-      Code: {S3Bucket: test, S3Key: test}
+      Code:
+        S3Bucket:
+          Fn::Join:
+          - .
+          - [a, b, c]
+        S3Key: test
       Handler: index.handler
       Runtime: nodejs8.10
   LambdaExecutionRole:
