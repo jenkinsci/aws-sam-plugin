@@ -65,7 +65,7 @@ public class ZipHelper {
         for (FilePath file : directory.list()) {
             if (file.isDirectory()) {
                 addDirectoryToZip(file, zipStream, rootPath);
-                return;
+                continue;
             }
             ZipEntry entry = new ZipEntry(file.getRemote().substring(rootPath.length() + 1));
             entry.setTime(file.lastModified());
