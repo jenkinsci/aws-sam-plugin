@@ -23,6 +23,9 @@ import com.amazonaws.services.s3.model.AmazonS3Exception;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import hudson.FilePath;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.io.InputStream;
+import java.io.IOException;
 
 /**
  * @author Trek10, Inc.
@@ -44,6 +47,10 @@ public class ArtifactUploaderTest {
 
     private ArtifactUploader uploader;
 
+    private String checkSum;
+
+    private long contentLength;
+
     private final ArgumentCaptor<PutObjectRequest> putObjectRequestCaptor = ArgumentCaptor
             .forClass(PutObjectRequest.class);
 
@@ -55,38 +62,48 @@ public class ArtifactUploaderTest {
         artifactDirFilePath = new FilePath(new File(getClass().getClassLoader().getResource("somefunc").getFile()));
         config = new UploaderConfig().withS3Bucket("some-bucket").withS3Prefix("test-prefix");
         uploader = ArtifactUploader.build(s3Client, config, logger);
+
+        try {
+            // Since the file has line endings, we will calculate a different checkSum on different platforms
+            InputStream reader = artifactFilePath.read();
+            checkSum = DigestUtils.md5Hex(reader);
+            reader.close();
+            contentLength = artifactFilePath.length();
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException("Could not read checksum of test artifact file", e);
+        }
     }
 
     @Test
     public void testUploadObjectExists() {
         String result = uploader.upload(artifactFilePath);
-        assertEquals(result, "s3://some-bucket/test-prefix/42637f683b13b9beec74eab6d2a442cd");
+        assertEquals(result, "s3://some-bucket/test-prefix/" + checkSum);
         verify(s3Client, times(0)).putObject(any(PutObjectRequest.class));
     }
 
     @Test
     public void testUploadObjectDoesNotExist() {
-        when(s3Client.getObjectMetadata("some-bucket", "test-prefix/42637f683b13b9beec74eab6d2a442cd"))
+        when(s3Client.getObjectMetadata("some-bucket", "test-prefix/" + checkSum))
                 .thenThrow(new AmazonS3Exception("error"));
         String result = uploader.upload(artifactFilePath);
-        assertEquals(result, "s3://some-bucket/test-prefix/42637f683b13b9beec74eab6d2a442cd");
+        assertEquals(result, "s3://some-bucket/test-prefix/" + checkSum);
         verify(s3Client, times(1)).putObject(putObjectRequestCaptor.capture());
         PutObjectRequest request = putObjectRequestCaptor.getValue();
         assertEquals(request.getBucketName(), "some-bucket");
-        assertEquals(request.getKey(), "test-prefix/42637f683b13b9beec74eab6d2a442cd");
-        assertEquals(request.getMetadata().getContentLength(), 89);
+        assertEquals(request.getKey(), "test-prefix/" + checkSum);
+        assertEquals(request.getMetadata().getContentLength(), contentLength);
         assertEquals(request.getMetadata().getSSEAlgorithm(), "AES256");
     }
 
     @Test
     public void testUploadObjectWithExtensionAndKms() {
-        when(s3Client.getObjectMetadata("some-bucket", "42637f683b13b9beec74eab6d2a442cd.js"))
+        when(s3Client.getObjectMetadata("some-bucket", checkSum + ".js"))
                 .thenThrow(new AmazonS3Exception("error"));
         config.setS3Prefix(null);
         config.setKmsKeyId("some-kms");
         uploader = ArtifactUploader.build(s3Client, config, logger);
         String result = uploader.upload(artifactFilePath, "js");
-        assertEquals(result, "s3://some-bucket/42637f683b13b9beec74eab6d2a442cd.js");
+        assertEquals(result, "s3://some-bucket/" + checkSum + ".js");
         verify(s3Client, times(1)).putObject(putObjectRequestCaptor.capture());
         PutObjectRequest request = putObjectRequestCaptor.getValue();
         assertEquals(request.getSSEAwsKeyManagementParams().getAwsKmsKeyId(), "some-kms");
