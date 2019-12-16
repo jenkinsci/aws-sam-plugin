@@ -22,7 +22,9 @@ public enum ArtifactResources {
             true,
             false,
             BucketProperties.S3_BUCKET_NO_VERSION),
-    CLOUD_FORMATION_STACK("AWS::CloudFormation::Stack", "TemplateURL");
+    CLOUD_FORMATION_STACK("AWS::CloudFormation::Stack", "TemplateURL"),
+    SERVERLESS_LAYER_VERSION("AWS::Serverless::LayerVersion", "ContentUri", true, true),
+    LAMBDA_LAYER_VERSION("AWS::Lambda::LayerVersion", "Content", true, true, BucketProperties.S3_BUCKET);
 
     private final String type;
     private final String artifactsPathProperty;
