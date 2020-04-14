@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
-import org.yaml.snakeyaml.constructor.Constructor;
+import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.error.YAMLException;
 import org.yaml.snakeyaml.nodes.MappingNode;
 import org.yaml.snakeyaml.nodes.Node;
@@ -22,7 +22,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  * 
  * @author Trek10, Inc.
  */
-public class IntrinsicsYamlConstructor extends Constructor {
+public class IntrinsicsYamlConstructor extends SafeConstructor {
     public IntrinsicsYamlConstructor() {
         addIntrinsic("And");
         addIntrinsic("Base64");
