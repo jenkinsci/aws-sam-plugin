@@ -60,33 +60,33 @@ public class ArtifactUploaderTest {
     @Test
     public void testUploadObjectExists() {
         String result = uploader.upload(artifactFilePath);
-        assertEquals(result, "s3://some-bucket/test-prefix/6b700b9cfefe0b9f6666a0882ee004ab");
+        assertEquals(result, "s3://some-bucket/test-prefix/42637f683b13b9beec74eab6d2a442cd");
         verify(s3Client, times(0)).putObject(any(PutObjectRequest.class));
     }
 
     @Test
     public void testUploadObjectDoesNotExist() {
-        when(s3Client.getObjectMetadata("some-bucket", "test-prefix/6b700b9cfefe0b9f6666a0882ee004ab"))
+        when(s3Client.getObjectMetadata("some-bucket", "test-prefix/42637f683b13b9beec74eab6d2a442cd"))
                 .thenThrow(new AmazonS3Exception("error"));
         String result = uploader.upload(artifactFilePath);
-        assertEquals(result, "s3://some-bucket/test-prefix/6b700b9cfefe0b9f6666a0882ee004ab");
+        assertEquals(result, "s3://some-bucket/test-prefix/42637f683b13b9beec74eab6d2a442cd");
         verify(s3Client, times(1)).putObject(putObjectRequestCaptor.capture());
         PutObjectRequest request = putObjectRequestCaptor.getValue();
         assertEquals(request.getBucketName(), "some-bucket");
-        assertEquals(request.getKey(), "test-prefix/6b700b9cfefe0b9f6666a0882ee004ab");
-        assertEquals(request.getMetadata().getContentLength(), 91);
+        assertEquals(request.getKey(), "test-prefix/42637f683b13b9beec74eab6d2a442cd");
+        assertEquals(request.getMetadata().getContentLength(), 89);
         assertEquals(request.getMetadata().getSSEAlgorithm(), "AES256");
     }
 
     @Test
     public void testUploadObjectWithExtensionAndKms() {
-        when(s3Client.getObjectMetadata("some-bucket", "6b700b9cfefe0b9f6666a0882ee004ab.js"))
+        when(s3Client.getObjectMetadata("some-bucket", "42637f683b13b9beec74eab6d2a442cd.js"))
                 .thenThrow(new AmazonS3Exception("error"));
         config.setS3Prefix(null);
         config.setKmsKeyId("some-kms");
         uploader = ArtifactUploader.build(s3Client, config, logger);
         String result = uploader.upload(artifactFilePath, "js");
-        assertEquals(result, "s3://some-bucket/6b700b9cfefe0b9f6666a0882ee004ab.js");
+        assertEquals(result, "s3://some-bucket/42637f683b13b9beec74eab6d2a442cd.js");
         verify(s3Client, times(1)).putObject(putObjectRequestCaptor.capture());
         PutObjectRequest request = putObjectRequestCaptor.getValue();
         assertEquals(request.getSSEAwsKeyManagementParams().getAwsKmsKeyId(), "some-kms");
