@@ -12,7 +12,7 @@ This plugin packages and deploys both CloudFormation and SAM templates with a se
 
 This plugins adds Jenkins pipeline steps to interact with the AWS API.
 
-* [samDeploy](https://jenkins.io/doc/pipeline/steps/aws-sam/)
+* [samDeploy](#samdeploy)
 
 If you wish to use the AWS SAM CLI directly, you can use [AWS SAM build images](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-image-repositories.html) with Pipeline's [built-in Docker support](https://www.jenkins.io/doc/book/pipeline/docker/).
 
