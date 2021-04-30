@@ -2,20 +2,19 @@
 
 ## Status
 
-[![codecov](https://codecov.io/gh/jenkinsci/aws-sam/branch/master/graph/badge.svg)](https://codecov.io/gh/jenkinsci/aws-sam)
-[![License](https://img.shields.io/github/license/jenkinsci/aws-sam.svg)](LICENSE)
-[![wiki](https://img.shields.io/badge/AWS%20SAM-WIKI-blue.svg?style=flat)](http://wiki.jenkins-ci.org/display/JENKINS/AWS+SAM)
-[![Build Status](https://ci.jenkins.io/buildStatus/icon?job=Plugins/aws-sam/master)](https://ci.jenkins.io/job/Plugins/job/aws-sam/job/master/)
+[![License](https://img.shields.io/github/license/jenkinsci/aws-sam-plugin.svg)](LICENSE)
+[![Wiki](https://img.shields.io/badge/AWS%20SAM-plugin-blue.svg?style=flat)](https://plugins.jenkins.io/aws-sam/)
+[![Build Status](https://ci.jenkins.io/buildStatus/icon?job=Plugins/aws-sam-plugin/master)](https://ci.jenkins.io/job/Plugins/job/aws-sam-plugin/job/master/)
 
 This plugin packages and deploys both CloudFormation and SAM templates with a security first mindset.
-
-Github link: [https://github.com/trek10inc/jenkins-aws-sam-plugin](https://github.com/trek10inc/jenkins-aws-sam-plugin)  
 
 ## Features
 
 This plugins adds Jenkins pipeline steps to interact with the AWS API.
 
 * [samDeploy](#samdeploy)
+
+If you wish to use the AWS SAM CLI directly, you can use [AWS SAM build images](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-image-repositories.html) with Pipeline's [built-in Docker support](https://www.jenkins.io/doc/book/pipeline/docker/).
 
 ## Installation
 
@@ -75,6 +74,6 @@ Statement:
 
 ### samDeploy
 
-```
+```groovy
 samDeploy([credentialsId: 'jenkins_sandbox', region: 'us-east-1', s3Bucket: 'sam-jenkins-plugin', stackName: 'sam-jenkins-plugin', parameters: [[key: 'Username', value: 'Modest']], templateFile: 'template.yml'])
 ```
