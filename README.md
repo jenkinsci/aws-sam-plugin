@@ -17,9 +17,9 @@ This plugin helps you automate the deployments of your applications that are def
 - Deploy SAM projects to AWS
 - Package SAM projects to a S3
   - Use specific or auto-generated S3 bucket (if not given, a bucket will be automatically generated in your account for you)
-- Template parameter support
+- Template parameters support
 - Template tags support
-- Deploy to specific region
+- Deploy to a specific region
 - Use an S3 prefix for packaged artifacts to have fine-grained control of where artifacts are uploaded
 - Use a specific KMS key for encrypting packaged artifacts at rest in S3
 - Configurable deployment role
