@@ -66,17 +66,16 @@ required to create the resources in your SAM (CloudFormation) template.
 ```yaml
 Version: '2012-10-17'
 Statement:
-- Sid: SAMS3Actions
-  Resource: '*'
-  Effect: Allow
-  Action:
-  - s3:CreateBucket
-  - s3:GetBucketLocation
-  - s3:ListBucket
-  - s3:PutObject
-  - s3:PutObjectAcl
-  - s3:PutObjectTagging
-...
+  - Sid: SAMS3Actions
+    Resource: '*'
+    Effect: Allow
+    Action:
+      - s3:CreateBucket
+      - s3:GetBucketLocation
+      - s3:ListBucket
+      - s3:PutObject
+      - s3:PutObjectAcl
+      - s3:PutObjectTagging
 ```
 
 #### CloudFormation policy (you may want to limit `Resource` to specific stacks)
@@ -84,16 +83,15 @@ Statement:
 ```yaml
 Version: '2012-10-17'
 Statement:
-- Sid: SAMCloudFormationActions
-  Resource: '*'
-  Effect: Allow
-  Action:
-  - cloudformation:ValidateTemplate
-  - cloudformation:DescribeStacks
-  - cloudformation:CreateChangeSet
-  - cloudformation:DescribeChangeSet
-  - cloudformation:ExecuteChangeSet
-...
+  - Sid: SAMCloudFormationActions
+    Resource: '*'
+    Effect: Allow
+    Action:
+      - cloudformation:ValidateTemplate
+      - cloudformation:DescribeStacks
+      - cloudformation:CreateChangeSet
+      - cloudformation:DescribeChangeSet
+      - cloudformation:ExecuteChangeSet
 ```
 
 ## Project configuration
