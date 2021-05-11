@@ -14,9 +14,9 @@ This plugin helps you automate the deployments of your applications that are def
 
 - Custom build step
 - [`samDeploy`](https://www.jenkins.io/doc/pipeline/steps/aws-sam/) Pipeline step
-- Deploy SAM projects to AWS
-- Package SAM projects to a S3
-  - Use specific or auto-generated S3 bucket (if not given, a bucket will be automatically generated in your account for you)
+- Deploy SAM applications to AWS
+- Package SAM applications to a S3 bucket
+    - Use specific or auto-created S3 bucket (if not given, a bucket will be automatically created in your account for you)
 - Template parameters support
 - Template tags support
 - Deploy to a specific region
