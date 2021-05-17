@@ -17,7 +17,6 @@
 	<properties>
 		<jenkins.version>2.7.3</jenkins.version>
 		<java.level>8</java.level>
-		<revision>1.2.4</revision>
 	</properties>
 	<name>AWS SAM</name>
 	<description>This plugin packages and deploys both CloudFormation and SAM templates with a security first mindset.</description>
