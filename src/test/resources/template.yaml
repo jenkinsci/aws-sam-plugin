@@ -62,3 +62,6 @@ Resources:
             Action:
             - logs:*
             Resource: arn:aws:logs:*:*:*
+Outputs:
+  AccessNestedStackOutput:
+    Value: !GetAtt CloudFormationStack.Outputs.LambdaFunctionName

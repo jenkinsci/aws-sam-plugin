@@ -19,7 +19,7 @@ import org.yaml.snakeyaml.nodes.Tag;
 /**
  * Allows snakeyaml to parse YAML templates that contain short forms of
  * CloudFormation intrinsic functions.
- * 
+ *
  * @author Trek10, Inc.
  */
 public class IntrinsicsYamlConstructor extends SafeConstructor {
@@ -72,12 +72,14 @@ public class IntrinsicsYamlConstructor extends SafeConstructor {
             result.put(prefix + key, constructIntrinsicValueObject(node));
             return result;
         }
-        
+
         protected Object constructIntrinsicValueObject(Node node) {
             if (node instanceof ScalarNode) {
-                Object val = (String) constructScalar((ScalarNode) node);
+                Object val = constructScalar((ScalarNode) node);
                 if (forceSequenceValue) {
-                    val = Arrays.asList(((String) val).split("\\."));
+                    String strVal = (String) val;
+                    int firstDotIndex = strVal.indexOf(".");
+                    val = Arrays.asList(strVal.substring(0, firstDotIndex), strVal.substring(firstDotIndex + 1));
                 }
                 return val;
             } else if (node instanceof SequenceNode) {

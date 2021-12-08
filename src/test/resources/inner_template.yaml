@@ -38,3 +38,6 @@ Resources:
             Action:
             - logs:*
             Resource: arn:aws:logs:*:*:*
+Outputs:
+  LambdaFunctionName:
+    Value: !Ref Test

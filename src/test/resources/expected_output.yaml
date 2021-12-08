@@ -57,3 +57,9 @@ Resources:
           - Effect: Allow
             Action: ['logs:*']
             Resource: arn:aws:logs:*:*:*
+Outputs:
+  AccessNestedStackOutput:
+    Value:
+      Fn::GetAtt:
+        - CloudFormationStack
+        - Outputs.LambdaFunctionName
