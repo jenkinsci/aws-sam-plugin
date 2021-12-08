@@ -75,7 +75,7 @@ public class CloudFormationServiceTest {
 
         when(cloudFormation.createChangeSet(any(CreateChangeSetRequest.class))).thenReturn(result);
         when(cloudFormation.describeChangeSet(any(DescribeChangeSetRequest.class))).thenReturn(changeSetResult);
-        assertEquals(result, cloudFormationService.createChangeSet("some-stack", "some-changeset", "template", null, null, "some-role"));
+        assertEquals(cloudFormationService.createChangeSet("some-stack", "some-changeset", "template", null, null, "some-role"), result);
         verify(cloudFormation, times(1)).createChangeSet(request);
     }
 
@@ -93,7 +93,7 @@ public class CloudFormationServiceTest {
                 .thenThrow(new AmazonCloudFormationException("error"));
         when(cloudFormation.createChangeSet(any(CreateChangeSetRequest.class))).thenReturn(result);
         when(cloudFormation.describeChangeSet(any(DescribeChangeSetRequest.class))).thenReturn(changeSetResult);
-        assertEquals(result, cloudFormationService.createChangeSet("some-stack", "some-changeset", "template", null, null, null));
+        assertEquals(cloudFormationService.createChangeSet("some-stack", "some-changeset", "template", null, null, null), result);
         verify(cloudFormation, times(1)).createChangeSet(request);
     }
 

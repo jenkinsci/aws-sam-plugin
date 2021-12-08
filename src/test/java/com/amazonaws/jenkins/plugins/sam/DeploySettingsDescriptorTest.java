@@ -33,49 +33,49 @@ public class DeploySettingsDescriptorTest {
 
     @Test
     public void testDoCheckCredentialsId() throws IOException, ServletException {
-        assertEquals(descriptor.doCheckCredentialsId("someId").kind, FormValidation.Kind.OK);
-        assertEquals(descriptor.doCheckCredentialsId("").kind, FormValidation.Kind.ERROR);
+        assertEquals(FormValidation.Kind.OK, descriptor.doCheckCredentialsId("someId").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckCredentialsId("").kind);
     }
 
     @Test
     public void testDoCheckKmsKeyId() throws IOException, ServletException {
-        assertEquals(descriptor.doCheckKmsKeyId("").kind, FormValidation.Kind.OK);
-        assertEquals(descriptor.doCheckKmsKeyId("test-123").kind, FormValidation.Kind.OK);
-        assertEquals(descriptor.doCheckKmsKeyId("123-test").kind, FormValidation.Kind.ERROR);
-        assertEquals(descriptor.doCheckKmsKeyId("test_123").kind, FormValidation.Kind.ERROR);
+        assertEquals(FormValidation.Kind.OK, descriptor.doCheckKmsKeyId("").kind);
+        assertEquals(FormValidation.Kind.OK, descriptor.doCheckKmsKeyId("test-123").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckKmsKeyId("123-test").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckKmsKeyId("test_123").kind);
     }
 
     @Test
     public void testDoCheckRegion() throws IOException, ServletException {
-        assertEquals(descriptor.doCheckRegion("us-east-1").kind, FormValidation.Kind.OK);
-        assertEquals(descriptor.doCheckRegion("").kind, FormValidation.Kind.ERROR);
+        assertEquals(FormValidation.Kind.OK, descriptor.doCheckRegion("us-east-1").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckRegion("").kind);
     }
 
     @Test
     public void testDoCheckRoleArn() throws IOException, ServletException {
-        assertEquals(descriptor.doCheckRoleArn("").kind, FormValidation.Kind.OK);
-        assertEquals(descriptor.doCheckRoleArn("abcde-1234-abcde-1234").kind, FormValidation.Kind.OK);
-        assertEquals(descriptor.doCheckRoleArn("abcde-1234").kind, FormValidation.Kind.ERROR);
+        assertEquals(FormValidation.Kind.OK, descriptor.doCheckRoleArn("").kind);
+        assertEquals(FormValidation.Kind.OK, descriptor.doCheckRoleArn("abcde-1234-abcde-1234").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckRoleArn("abcde-1234").kind);
     }
 
     @Test
     public void testDoCheckS3Bucket() throws IOException, ServletException {
-        assertEquals(descriptor.doCheckS3Bucket("some-bucket").kind, FormValidation.Kind.OK);
-        assertEquals(descriptor.doCheckS3Bucket("").kind, FormValidation.Kind.ERROR);
-        assertEquals(descriptor.doCheckS3Bucket("??some-bucket").kind, FormValidation.Kind.ERROR);
+        assertEquals(FormValidation.Kind.OK, descriptor.doCheckS3Bucket("some-bucket").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckS3Bucket("").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckS3Bucket("??some-bucket").kind);
     }
 
     @Test
     public void testDoCheckStackName() throws IOException, ServletException {
-        assertEquals(descriptor.doCheckStackName("some-stack-123").kind, FormValidation.Kind.OK);
-        assertEquals(descriptor.doCheckStackName("").kind, FormValidation.Kind.ERROR);
-        assertEquals(descriptor.doCheckStackName("123-some-stack").kind, FormValidation.Kind.ERROR);
-        assertEquals(descriptor.doCheckStackName("some-stack_123").kind, FormValidation.Kind.ERROR);
+        assertEquals(FormValidation.Kind.OK, descriptor.doCheckStackName("some-stack-123").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckStackName("").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckStackName("123-some-stack").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckStackName("some-stack_123").kind);
     }
 
     @Test
     public void testDoCheckTemplateFile() throws IOException, ServletException {
-        assertEquals(descriptor.doCheckTemplateFile("template.yaml").kind, FormValidation.Kind.OK);
-        assertEquals(descriptor.doCheckTemplateFile("").kind, FormValidation.Kind.ERROR);
+        assertEquals(FormValidation.Kind.OK, descriptor.doCheckTemplateFile("template.yaml").kind);
+        assertEquals(FormValidation.Kind.ERROR, descriptor.doCheckTemplateFile("").kind);
     }
 }

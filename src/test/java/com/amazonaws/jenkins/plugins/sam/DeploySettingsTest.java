@@ -39,15 +39,15 @@ public class DeploySettingsTest {
         tagList.add(new KeyValuePairBean("key2", "value2"));
         settings.setTags(tagList);
         List<Tag> tags = settings.buildTags();
-        assertEquals(tags.size(), 2);
-        assertEquals(tags.get(0), new Tag().withKey("key1").withValue("value1"));
-        assertEquals(tags.get(1), new Tag().withKey("key2").withValue("value2"));
+        assertEquals(2, tags.size());
+        assertEquals(new Tag().withKey("key1").withValue("value1"), tags.get(0));
+        assertEquals(new Tag().withKey("key2").withValue("value2"), tags.get(1));
     }
 
     @Test
     public void testBuildTagsEmpty() {
         List<Tag> tags = settings.buildTags();
-        assertEquals(tags.size(), 0);
+        assertEquals(0, tags.size());
     }
 
     @Test
@@ -57,15 +57,15 @@ public class DeploySettingsTest {
         parameterList.add(new KeyValuePairBean("key2", "value2"));
         settings.setParameters(parameterList);
         List<Parameter> parameters = settings.buildTemplateParameters();
-        assertEquals(parameters.size(), 2);
-        assertEquals(parameters.get(0), new Parameter().withParameterKey("key1").withParameterValue("value1"));
-        assertEquals(parameters.get(1), new Parameter().withParameterKey("key2").withParameterValue("value2"));
+        assertEquals(2, parameters.size());
+        assertEquals(new Parameter().withParameterKey("key1").withParameterValue("value1"), parameters.get(0));
+        assertEquals(new Parameter().withParameterKey("key2").withParameterValue("value2"), parameters.get(1));
     }
 
     @Test
     public void testBuildTemplateParametersEmpty() {
         List<Parameter> parameters = settings.buildTemplateParameters();
-        assertEquals(parameters.size(), 0);
+        assertEquals(0, parameters.size());
     }
 
     @Test
@@ -73,9 +73,9 @@ public class DeploySettingsTest {
         settings.setS3Prefix("some-prefix");
         settings.setKmsKeyId("some-key");
         UploaderConfig config = settings.buildUploaderConfig();
-        assertEquals(config.getS3Bucket(), "some-bucket");
-        assertEquals(config.getS3Prefix(), "some-prefix");
-        assertEquals(config.getKmsKeyId(), "some-key");
+        assertEquals("some-bucket", config.getS3Bucket());
+        assertEquals("some-prefix", config.getS3Prefix());
+        assertEquals("some-key", config.getKmsKeyId());
     }
 
 }

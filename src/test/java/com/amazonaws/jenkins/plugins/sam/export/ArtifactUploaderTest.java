@@ -60,7 +60,7 @@ public class ArtifactUploaderTest {
     @Test
     public void testUploadObjectExists() {
         String result = uploader.upload(artifactFilePath);
-        assertEquals(result, "s3://some-bucket/test-prefix/42637f683b13b9beec74eab6d2a442cd");
+        assertEquals("s3://some-bucket/test-prefix/42637f683b13b9beec74eab6d2a442cd", result);
         verify(s3Client, times(0)).putObject(any(PutObjectRequest.class));
     }
 
@@ -69,13 +69,13 @@ public class ArtifactUploaderTest {
         when(s3Client.getObjectMetadata("some-bucket", "test-prefix/42637f683b13b9beec74eab6d2a442cd"))
                 .thenThrow(new AmazonS3Exception("error"));
         String result = uploader.upload(artifactFilePath);
-        assertEquals(result, "s3://some-bucket/test-prefix/42637f683b13b9beec74eab6d2a442cd");
+        assertEquals("s3://some-bucket/test-prefix/42637f683b13b9beec74eab6d2a442cd", result);
         verify(s3Client, times(1)).putObject(putObjectRequestCaptor.capture());
         PutObjectRequest request = putObjectRequestCaptor.getValue();
-        assertEquals(request.getBucketName(), "some-bucket");
-        assertEquals(request.getKey(), "test-prefix/42637f683b13b9beec74eab6d2a442cd");
-        assertEquals(request.getMetadata().getContentLength(), 89);
-        assertEquals(request.getMetadata().getSSEAlgorithm(), "AES256");
+        assertEquals("some-bucket", request.getBucketName());
+        assertEquals("test-prefix/42637f683b13b9beec74eab6d2a442cd", request.getKey());
+        assertEquals(89, request.getMetadata().getContentLength());
+        assertEquals("AES256", request.getMetadata().getSSEAlgorithm());
     }
 
     @Test
@@ -86,26 +86,26 @@ public class ArtifactUploaderTest {
         config.setKmsKeyId("some-kms");
         uploader = ArtifactUploader.build(s3Client, config, logger);
         String result = uploader.upload(artifactFilePath, "js");
-        assertEquals(result, "s3://some-bucket/42637f683b13b9beec74eab6d2a442cd.js");
+        assertEquals("s3://some-bucket/42637f683b13b9beec74eab6d2a442cd.js", result);
         verify(s3Client, times(1)).putObject(putObjectRequestCaptor.capture());
         PutObjectRequest request = putObjectRequestCaptor.getValue();
-        assertEquals(request.getSSEAwsKeyManagementParams().getAwsKmsKeyId(), "some-kms");
+        assertEquals("some-kms", request.getSSEAwsKeyManagementParams().getAwsKmsKeyId());
     }
 
     @Test
     public void testUploadDirectory() {
         String result = uploader.upload(artifactDirFilePath);
-        assertEquals(result.substring(0, 29), "s3://some-bucket/test-prefix/");
+        assertEquals("s3://some-bucket/test-prefix/", result.substring(0, 29));
     }
 
     @Test
     public void testBuildS3PathStyleURI() {
         String result = uploader.buildS3PathStyleURI("s3://some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
-        assertEquals(result,
-                "https://s3-us-east-2.amazonaws.com/some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
+        assertEquals("https://s3-us-east-2.amazonaws.com/some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9",
+                result);
 
         when(s3Client.getRegionName()).thenReturn("us-east-1");
         result = uploader.buildS3PathStyleURI("s3://some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
-        assertEquals(result, "https://s3.amazonaws.com/some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
+        assertEquals("https://s3.amazonaws.com/some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9", result);
     }
 }
