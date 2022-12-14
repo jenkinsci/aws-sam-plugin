@@ -12,6 +12,10 @@ Resources:
       Handler: 'index.handler'
       Role: !GetAtt LambdaExecutionRole.Arn
       Runtime: "nodejs8.10"
+  LambdaLayerVersion:
+    Type: 'AWS::Lambda::LayerVersion'
+    Properties:
+      Content: 'somefunc'
   ServerlessFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
@@ -22,6 +26,18 @@ Resources:
       CodeUri: 's3://bucket/func'
   ServerlessFunctionWithoutCode:
     Type: 'AWS::Serverless::Function'
+    Properties:
+      Test: test
+  ServerlessLayerVersion:
+    Type: 'AWS::Serverless::LayerVersion'
+    Properties:
+      ContentUri: 'somefunc/index.js'
+  ServerlessLayerVersionS3:
+    Type: 'AWS::Serverless::LayerVersion'
+    Properties:
+      ContentUri: 's3://bucket/func'
+  ServerlessLayerVersionWithoutCode:
+    Type: 'AWS::Serverless::LayerVersion'
     Properties:
       Test: test
   CloudFormationStack:
