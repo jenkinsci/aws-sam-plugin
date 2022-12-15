@@ -48,7 +48,7 @@ public class ArtifactExporterTest {
         Yaml yaml = new Yaml();
         Map<String, Object> expectedOutput = yaml
                 .load(getClass().getClassLoader().getResource("expected_output.yaml").openStream());
-        assertEquals(result, expectedOutput);
+        assertEquals(expectedOutput, result);
     }
 
 }

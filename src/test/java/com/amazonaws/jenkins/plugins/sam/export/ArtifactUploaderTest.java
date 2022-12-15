@@ -77,7 +77,7 @@ public class ArtifactUploaderTest {
     @Test
     public void testUploadObjectExists() {
         String result = uploader.upload(artifactFilePath);
-        assertEquals(result, "s3://some-bucket/test-prefix/" + checkSum);
+        assertEquals("s3://some-bucket/test-prefix/42637f683b13b9beec74eab6d2a442cd", result);
         verify(s3Client, times(0)).putObject(any(PutObjectRequest.class));
     }
 
@@ -106,23 +106,23 @@ public class ArtifactUploaderTest {
         assertEquals(result, "s3://some-bucket/" + checkSum + ".js");
         verify(s3Client, times(1)).putObject(putObjectRequestCaptor.capture());
         PutObjectRequest request = putObjectRequestCaptor.getValue();
-        assertEquals(request.getSSEAwsKeyManagementParams().getAwsKmsKeyId(), "some-kms");
+        assertEquals("some-kms", request.getSSEAwsKeyManagementParams().getAwsKmsKeyId());
     }
 
     @Test
     public void testUploadDirectory() {
         String result = uploader.upload(artifactDirFilePath);
-        assertEquals(result.substring(0, 29), "s3://some-bucket/test-prefix/");
+        assertEquals("s3://some-bucket/test-prefix/", result.substring(0, 29));
     }
 
     @Test
     public void testBuildS3PathStyleURI() {
         String result = uploader.buildS3PathStyleURI("s3://some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
-        assertEquals(result,
-                "https://s3-us-east-2.amazonaws.com/some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
+        assertEquals("https://s3-us-east-2.amazonaws.com/some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9",
+                result);
 
         when(s3Client.getRegionName()).thenReturn("us-east-1");
         result = uploader.buildS3PathStyleURI("s3://some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
-        assertEquals(result, "https://s3.amazonaws.com/some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9");
+        assertEquals("https://s3.amazonaws.com/some-bucket/test-prefix/bb37adc7b7bd21341f12c0eca13e94c9", result);
     }
 }
