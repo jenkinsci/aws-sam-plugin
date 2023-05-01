@@ -4,13 +4,17 @@
 [![Wiki](https://img.shields.io/badge/AWS%20SAM-plugin-blue.svg?style=flat)](https://plugins.jenkins.io/aws-sam/)
 [![Build Status](https://ci.jenkins.io/buildStatus/icon?job=Plugins/aws-sam-plugin/master)](https://ci.jenkins.io/job/Plugins/job/aws-sam-plugin/job/master/)
 
+> **Note**
+>
+> We recommend using the [AWS SAM build images](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-image-repositories.html) directly using [Jenkins Pipeline](https://www.jenkins.io/doc/book/pipeline/docker/).
+>
+> [See here](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-generating-example-ci-cd-others.html) for more information.
+
 The AWS Serverless Application Model ([SAM](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/what-is-sam.html)) is an open-source framework you can use to build serverless applications on AWS.
 
 This plugin helps you automate the deployments of your applications that are defined using SAM.
 
 ## Features
-
-> If you wish to use the AWS SAM CLI directly, you can use [AWS SAM build images](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-image-repositories.html) with Pipeline's [built-in Docker support](https://www.jenkins.io/doc/book/pipeline/docker/).
 
 - Custom build step
 - [`samDeploy`](https://www.jenkins.io/doc/pipeline/steps/aws-sam/) Pipeline step
