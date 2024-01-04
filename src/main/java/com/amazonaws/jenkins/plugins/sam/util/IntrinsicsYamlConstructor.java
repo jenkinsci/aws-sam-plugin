@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.constructor.AbstractConstruct;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
 import org.yaml.snakeyaml.error.YAMLException;
@@ -24,6 +25,7 @@ import org.yaml.snakeyaml.nodes.Tag;
  */
 public class IntrinsicsYamlConstructor extends SafeConstructor {
     public IntrinsicsYamlConstructor() {
+        super(new LoaderOptions());
         addIntrinsic("And");
         addIntrinsic("Base64");
         addIntrinsic("Cidr");
