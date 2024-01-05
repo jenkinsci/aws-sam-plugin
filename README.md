@@ -47,17 +47,10 @@ Before you can start building, you _must_ have your AWS credentials set up in Je
 To do this:
 
 1. From the main page of your jenkins server go to "Manage Jenkins" > "Manage Credentials" and then click on "Global" domain.
-
-  ![](media/configure-credentials-1.png)
-
 2. Click "Add Credentials."
-
-  ![](media/configure-credentials-2.png)
-
 3. Select from the "Kind" dropdown "AWS Credentials". If "AWS Credentials" do not exist, please check if you have `AWS SAM` plugin installed
 4. Finish the form with your AWS access keys and click "OK."
-
-  ![](media/configure-credentials-3.png)
+  ![](media/configure-credentials-new.png)
 
 ### IAM setup
 
