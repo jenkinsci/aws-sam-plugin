@@ -6,6 +6,8 @@
 
 > **Note**
 >
+> This plugin is DEPRECATED as of February 12, 2024 and is no longer being maintained.  
+>
 > We recommend using the [AWS SAM build images](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-image-repositories.html) directly using [Jenkins Pipeline](https://www.jenkins.io/doc/book/pipeline/docker/).
 >
 > [See here](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-generating-example-ci-cd-others.html) for more information.
