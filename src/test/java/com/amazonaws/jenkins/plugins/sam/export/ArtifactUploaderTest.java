@@ -77,7 +77,7 @@ public class ArtifactUploaderTest {
     @Test
     public void testUploadObjectExists() {
         String result = uploader.upload(artifactFilePath);
-        assertEquals("s3://some-bucket/test-prefix/42637f683b13b9beec74eab6d2a442cd", result);
+        assertEquals("s3://some-bucket/test-prefix/" + checkSum, result);
         verify(s3Client, times(0)).putObject(any(PutObjectRequest.class));
     }
 

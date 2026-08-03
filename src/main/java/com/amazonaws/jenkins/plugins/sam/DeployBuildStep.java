@@ -16,7 +16,6 @@ import org.yaml.snakeyaml.Yaml;
 
 import jenkins.tasks.SimpleBuildStep;
 
-import org.apache.commons.lang.StringUtils;
 import org.jenkinsci.Symbol;
 
 import com.amazonaws.AmazonServiceException;
@@ -112,7 +111,7 @@ public class DeployBuildStep extends Builder implements SimpleBuildStep {
 
         return cloudFormation.createChangeSet(settings.getStackName(), "jenkins-build-" + jobId,
                 yaml.dump(outputTemplate), settings.buildTemplateParameters(), settings.buildTags(),
-                StringUtils.isEmpty(roleArn) ? null : roleArn);
+                (roleArn == null || roleArn.isEmpty()) ? null : roleArn);
     }
 
     private String createOutputTemplateFile(Map<String, Object> outputTemplate, FilePath workspace, String jobId)
@@ -120,7 +119,7 @@ public class DeployBuildStep extends Builder implements SimpleBuildStep {
         Yaml yaml = new Yaml();
         String outputTemplateFile = settings.getOutputTemplateFile();
 
-        if (StringUtils.isEmpty(outputTemplateFile)) {
+        if ((outputTemplateFile == null || outputTemplateFile.isEmpty())) {
             outputTemplateFile = String.format("template-%s.yaml", jobId);
         }
         OutputStreamWriter writer = new OutputStreamWriter(workspace.child(outputTemplateFile).write(),

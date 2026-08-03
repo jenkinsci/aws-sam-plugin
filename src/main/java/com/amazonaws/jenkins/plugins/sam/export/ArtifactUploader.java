@@ -15,7 +15,6 @@ import com.amazonaws.services.s3.model.SSEAwsKeyManagementParams;
 
 import hudson.FilePath;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.commons.lang.StringUtils;
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -80,7 +79,7 @@ public class ArtifactUploader {
 
     private String uploadToS3(FilePath file, String extension) throws IOException, InterruptedException {
         String objectKey = getChecksum(file);
-        if (!StringUtils.isEmpty(config.getS3Prefix())) {
+        if (!(config.getS3Prefix() == null || config.getS3Prefix().isEmpty())) {
             objectKey = String.format("%s/%s", config.getS3Prefix(), objectKey);
         }
         if (extension != null) {
@@ -95,7 +94,7 @@ public class ArtifactUploader {
         objMetadata.setContentLength(file.length());
         InputStream reader = file.read();
         PutObjectRequest putObjectRequest = new PutObjectRequest(config.getS3Bucket(), objectKey, reader, objMetadata);
-        if (StringUtils.isEmpty(config.getKmsKeyId())) {
+        if ((config.getKmsKeyId() == null || config.getKmsKeyId().isEmpty())) {
             objMetadata.setSSEAlgorithm(ObjectMetadata.AES_256_SERVER_SIDE_ENCRYPTION);
         } else {
             putObjectRequest.setSSEAwsKeyManagementParams(new SSEAwsKeyManagementParams(config.getKmsKeyId()));

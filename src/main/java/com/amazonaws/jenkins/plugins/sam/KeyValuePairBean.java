@@ -9,7 +9,6 @@ import hudson.model.Descriptor;
 import hudson.util.FormValidation;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * @author Trek10, Inc.
@@ -42,20 +41,20 @@ public class KeyValuePairBean extends AbstractDescribableImpl<KeyValuePairBean> 
         }
 
         public FormValidation doCheckKey(@QueryParameter String value) {
-            if(StringUtils.isEmpty(value)){
+            if((value == null || value.isEmpty())){
                 return FormValidation.error("Please fill in key.");
             }
             if (value.length() > 128) {
                 return FormValidation.error("The maximum length is 128 characters.");
             }
-            if (!StringUtils.isAlphanumeric(value)) {
+            if (!value.chars().allMatch(Character::isLetterOrDigit)) {
                 return FormValidation.error("The key can contain only alphanumeric characters.");
             }
             return FormValidation.ok();
         }
         
         public FormValidation doCheckValue(@QueryParameter String value) {
-            if(StringUtils.isEmpty(value)){
+            if((value == null || value.isEmpty())){
                 return FormValidation.error("Please fill in value.");
             }
             if (value.length() > 256) {
